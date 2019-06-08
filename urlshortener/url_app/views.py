@@ -24,7 +24,7 @@ def index(request):
 
 def redirect_original(request, alias):
     try:
-        url = Urls.object.get(pk=alias)
+        url = Urls.objects.get(pk=alias)
     except ObjectDoesNotExist:
         response_data = {'ERR_CODE': '002', 'Description': 'SHORTENED URL NOT FOUND'}
         return HttpResponse(json.dumps(response_data), content_type='application/json')
