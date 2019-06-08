@@ -33,7 +33,7 @@
             <ul>
                 {% for url in urls %}
                     <li>
-                        <img src="{{url.favicon}}">
+                        <img src="{{url.favicon}}" width="16" height="16">
                         <a href="short/{{ url.alias }}">{{ url.alias }}</a>
                     </li>
                 {% endfor %}

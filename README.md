@@ -86,4 +86,4 @@ Não há requerimentos específicos para linguagens, somos poliglotas. Utilize a
 2. Crie um *endpoint* que mostre as dez *URL's* mais acessadas 
 3. Crie um *client* para chamar sua API
 4. Faça um diagrama de sequencia da implementação feita nos casos de uso (Dica, use o https://www.websequencediagrams.com/)
-5. Monte um deploy da sua solução utilizando containers 
+5. Monte um deploy da sua solução utilizando containers

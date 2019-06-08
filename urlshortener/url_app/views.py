@@ -1,8 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-
 
 from url_app.models import Urls
 from url_app import randomstrings
@@ -10,6 +9,7 @@ from url_app import randomstrings
 import time
 import json
 import favicon
+import re
 
 
 # Create your views here.
@@ -23,8 +23,12 @@ def index(request):
 
 
 def redirect_original(request, alias):
-    url = get_object_or_404(Urls, pk=alias)
-    # get object, if not found return 404 error
+    try:
+        url = Urls.object.get(pk=alias)
+    except ObjectDoesNotExist:
+        response_data = {'ERR_CODE': '002', 'Description': 'SHORTENED URL NOT FOUND'}
+        return HttpResponse(json.dumps(response_data), content_type='application/json')
+    # get object, if not found, return error message
     url.count += 1
     url.save()
     return HttpResponseRedirect(url.httpurl)
@@ -45,7 +49,7 @@ def shorten_url(request):
             alias = custom_alias or randomstrings.alpha(max_length)
 
             try:
-                temp = Urls.objects.get(pk=alias)
+                Urls.objects.get(pk=alias)
                 if not (custom_alias == ''):
                     response_data['alias'] = alias
                     response_data['ERR_CODE'] = '001'
@@ -54,7 +58,9 @@ def shorten_url(request):
 
             except ObjectDoesNotExist:
 
-                icon = favicon.get(url)[0]
+                favicon_url = re.search(r'https?:\/\/(?:[-\w.]|(?:%[\da-fA-F]{2}))+', url).group(0)
+
+                icon = favicon.get(favicon_url).pop()
 
                 b = Urls(httpurl=url, alias=alias, favicon=icon.url)
                 b.save()
@@ -63,3 +69,5 @@ def shorten_url(request):
                 response_data['url'] = settings.SITE_URL + "/" + alias
                 response_data['statistics'] = {'time_taken': int((time.time() - start) * 1000)}
                 return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+    return HttpResponse(json.dumps({"error": "error occurs"}), content_type="application/json")
