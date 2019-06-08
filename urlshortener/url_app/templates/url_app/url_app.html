@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>My URL Shortener</title>
+    </head>
+    <body>
+        <div style="display:flex;justify-content:center;align-items:center;width:100%;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form action="/create/" method="post">
+                        <label>URL:</label>
+                        <input type="text" name="url" id="url" class="form-control input-sm" placeholder="http://www.facebook.com" />
+                        <p/>
+                        <label>Custom Alias:</label>
+                        <input type="text" name="custom_alias" id="alias" class="form-control input-sm" placeholder="face.b" />
+                        <p/>
+                        {% csrf_token %}
+                        <button id="submitButton" class="btn btn-primary">Submit</button></p>
+                    </form>
+                </div>
+                <div class="panel-footer"><span id="url-result">Enter the URL above and click submit!</span></div>
+            </div>
+        </div>
+        <p/>
+        <p/>
+        <p/>
+        <div style="display:flex;justify-content:center;align-items:center;width:100%;">
+            <label>As 10 Mais</label>:
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;width:100%;">
+            <ul>
+                {% for url in urls %}
+                    <li>
+                        <img src="{{url.favicon}}">
+                        <a href="short/{{ url.alias }}">{{ url.alias }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
