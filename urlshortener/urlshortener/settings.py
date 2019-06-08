@@ -26,7 +26,7 @@ SECRET_KEY = '#bfwk7!f86o*cop_p6v*u#s1qymtk5yzbe!4eq+t28_$eiic_b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['GugaFigueiredo.pythonanywhere.com']
 
 SITE_URL = "http://localhost:8000"
 MEDIA_ROOT = ''.join([BASE_DIR, '/media/'])
